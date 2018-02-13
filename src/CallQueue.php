@@ -2,9 +2,6 @@
 /**
  * Sequencer Call Queue class
  *
- * The call queue class gathers entries and runs them sequentially. This allows
- * extended controllers to subclass parent classes and build a sequence of events
- *
  * @author Eric
  * @package Slab
  * @subpackage Sequencer
@@ -16,7 +13,7 @@ class CallQueue
     /**
      * Our list of entries to run
      *
-     * @var mixed[]
+     * @var Entry[]
      */
     private $entries = array();
 
@@ -50,9 +47,23 @@ class CallQueue
     /**
      * Return entries to the context
      *
+     * @return Entry[]
      */
     public function getEntries()
     {
         return $this->entries;
+    }
+
+    /**
+     * Execute call queue
+     *
+     * @param $objectContext
+     */
+    public function execute($objectContext)
+    {
+        foreach ($this->entries as $entry)
+        {
+            $entry->execute($objectContext);
+        }
     }
 }
