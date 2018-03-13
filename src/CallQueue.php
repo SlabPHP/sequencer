@@ -42,7 +42,7 @@ class CallQueue
      * @param $parameters
      * @return $this
      */
-    public function addCall($method, $parameters)
+    public function addCall($method, $parameters = [])
     {
         $this->entries[] = new Entry($method, $parameters);
 
