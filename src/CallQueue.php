@@ -18,6 +18,11 @@ class CallQueue
     private $entries = array();
 
     /**
+     * @var bool
+     */
+    private $ok = true;
+
+    /**
      * Add an item to the call queue (syntactic sugar)
      *
      * @param string $method
@@ -55,14 +60,28 @@ class CallQueue
     }
 
     /**
+     * @return $this
+     */
+    public function stopExecution()
+    {
+        $this->ok = false;
+
+        return $this;
+    }
+
+    /**
      * Execute call queue
      *
      * @param $objectContext
      */
     public function execute($objectContext)
     {
+        if (!$this->ok) return;
+
         foreach ($this->entries as $entry)
         {
+            if (!$this->ok) return;
+
             $entry->execute($objectContext);
         }
     }
